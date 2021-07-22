@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Perlin;
 using System;
+using System.Numerics;
 
 namespace PerlinTest
 {
@@ -25,28 +26,28 @@ namespace PerlinTest
                         double c = random.NextDouble();
 
                         float expect1 = simplex.Evaluate(i, j, k);
-                        float actual1 = (float) SimplexNoise.noised(i, j, k).x;
+                        float actual1 = (float) SimplexNoise.noised(i, j, k).X;
 
                         float expect2 = simplex.Evaluate(i+eps, j+eps, k+eps);
-                        float actual2 = (float) SimplexNoise.noised(i+eps, j+eps, k+eps).x;
+                        float actual2 = (float) SimplexNoise.noised(i+eps, j+eps, k+eps).X;
 
                         float expect3 = simplex.Evaluate(-i, -j, -k);
-                        float actual3 = (float) SimplexNoise.noised(-i, -j, -k).x;
+                        float actual3 = (float) SimplexNoise.noised(-i, -j, -k).X;
 
                         float expect4 = simplex.Evaluate(-i-eps, -j-eps, -k-eps);
-                        float actual4 = (float) SimplexNoise.noised(-i-eps, -j-eps, -k-eps).x;
+                        float actual4 = (float) SimplexNoise.noised(-i-eps, -j-eps, -k-eps).X;
 
                         float expect5 = simplex.Evaluate(c, c, c);
-                        float actual5 = (float) SimplexNoise.noised(c, c, c).x;
+                        float actual5 = (float) SimplexNoise.noised(c, c, c).X;
 
                         float expect6 = simplex.Evaluate(c+eps, c+eps, c+eps);
-                        float actual6 = (float) SimplexNoise.noised(c+eps, c+eps, c+eps).x;
+                        float actual6 = (float) SimplexNoise.noised(c+eps, c+eps, c+eps).X;
 
                         float expect7 = simplex.Evaluate(-c, -c, -c);
-                        float actual7 = (float) SimplexNoise.noised(-c, -c, -c).x;
+                        float actual7 = (float) SimplexNoise.noised(-c, -c, -c).X;
 
                         float expect8 = simplex.Evaluate(-c-eps, -c-eps, -c-eps);
-                        float actual8 = (float) SimplexNoise.noised(-c-eps, -c-eps, -c-eps).x;
+                        float actual8 = (float) SimplexNoise.noised(-c-eps, -c-eps, -c-eps).X;
 
                         Assert.AreEqual(expect1, actual1, eps);
                         Assert.AreEqual(expect2, actual2, eps);
@@ -73,7 +74,7 @@ namespace PerlinTest
                     for (double k = -10; k < 10; k+=0.5)
                     {
                         double expect = simplex.Evaluate(i,j,k);
-                        double actual = SimplexNoise.noised(i, j, k).x;
+                        double actual = SimplexNoise.noised(i, j, k).X;
 
                         Assert.AreEqual(expect, actual, eps);
                     }

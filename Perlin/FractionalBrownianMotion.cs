@@ -1,6 +1,4 @@
 using System;
-using Vector3 = Perlin.ImprovedNoise.Vector3;
-using Vector4 = Perlin.ImprovedNoise.Vector4;
 using System.Numerics;
 
 namespace Perlin
@@ -15,9 +13,9 @@ namespace Perlin
             int it
         )
         {
-            float sum = 0f;
-            float freq = 1f;
-            float amplitude = 1f;
+            double sum = 0f;
+            double freq = 0.005f;
+            double amp = 1f;
 
             Vector3 dsum = new Vector3(0f, 0f, 0f);
             for (int i = 0; i < it; i++)
@@ -27,20 +25,25 @@ namespace Perlin
                 double zz = z * freq;
 
                 Vector4 n = f(xx, yy, zz);
-                dsum.x += n.z;
-                dsum.y += n.w;
-                dsum.z += n.w;
+                dsum.X += n.Y;
+                dsum.Y += n.Z;
+                dsum.Z += n.W;
 
-                float fval = (float) n.x;
+                float fval = (float) n.X;
                 fval = (1f + fval) * 0.5f;
-                sum += amplitude * fval;
+                sum += amp * fval;
                 freq *= 2f;
-                amplitude *= 0.5f;
+                amp *= 0.5f;
             }
 
-            return new Vector4(sum, dsum.x, dsum.y, dsum.z);
+            return new Vector4(
+                (float)sum,
+                (float)dsum.X,
+                (float)dsum.Y,
+                (float)dsum.Z);
         }
 
+        /*
         public static Vector4 hurst(
             Func<double, double, double, Vector4> f,
             double x,
@@ -204,11 +207,11 @@ namespace Perlin
                 freq *= 2.0;
 
                 // cos(36.8) = 0.8. sin(36.8) = 0.6
-                var tmpx = x * 1 + y * 0;
-                var tmpy = x * 0 + y * -1;
+                //var tmpx = x * 1 + y * 0;
+                //var tmpy = x * 0 + y * -1;
 
-                x = tmpx;
-                y = tmpy;
+                //x = tmpx;
+                //y = tmpy;
             }
             return new Vector4(sum, dsum.x, dsum.y, dsum.z);
         }
@@ -242,5 +245,6 @@ namespace Perlin
             }
             return nms( f, x + n1v, y + n2v, z, it );
         }
+        */
     }
 }

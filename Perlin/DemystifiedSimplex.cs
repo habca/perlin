@@ -1,6 +1,5 @@
 using System;
-using Vector3 = Perlin.ImprovedNoise.Vector3;
-using Vector4 = Perlin.ImprovedNoise.Vector4;
+using System.Numerics;
 
 namespace Perlin
 {
@@ -145,64 +144,63 @@ namespace Perlin
             t0 = 0.5 - x0*x0 - y0*y0 - z0*z0;
             if (t0 > 0) 
             {
-                dot0 = g0.x * x0 + g0.y * y0 + g0.z * z0;
+                dot0 = g0.X * x0 + g0.Y * y0 + g0.Z * z0;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
                 val += 32 * dot0 * pow04;
                 ddot0 = -8.0 * dot0 * pow02 * t0;
-                dx += ddot0 * x0 + pow04 * g0.x;
-                dy += ddot0 * y0 + pow04 * g0.y;
-                dz += ddot0 * z0 + pow04 * g0.z;
+                dx += ddot0 * x0 + pow04 * g0.X;
+                dy += ddot0 * y0 + pow04 * g0.Y;
+                dz += ddot0 * z0 + pow04 * g0.Z;
             }
             
             g0 = grad3[gi1];
             t0 = 0.5 - x1*x1 - y1*y1 - z1*z1;
             if (t0 > 0)
             {
-                dot0 = g0.x * x1 + g0.y * y1 + g0.z * z1;
+                dot0 = g0.X * x1 + g0.Y * y1 + g0.Z * z1;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
                 val += 32 * dot0 * pow04;
                 ddot0 = -8.0 * dot0 * pow02 * t0;
-                dx += ddot0 * x1 + pow04 * g0.x;
-                dy += ddot0 * y1 + pow04 * g0.y;
-                dz += ddot0 * z1 + pow04 * g0.z;
+                dx += ddot0 * x1 + pow04 * g0.X;
+                dy += ddot0 * y1 + pow04 * g0.Y;
+                dz += ddot0 * z1 + pow04 * g0.Z;
             }
 
             g0 = grad3[gi2];
             t0 = 0.5 - x2*x2 - y2*y2 - z2*z2;
             if (t0 > 0)
             {
-                dot0 = g0.x * x2 + g0.y * y2 + g0.z * z2;
+                dot0 = g0.X * x2 + g0.Y * y2 + g0.Z * z2;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
                 val += 32 * dot0 * pow04;
                 ddot0 = -8.0 * dot0 * pow02 * t0;
-                dx += ddot0 * x2 + pow04 * g0.x;
-                dy += ddot0 * y2 + pow04 * g0.y;
-                dz += ddot0 * z2 + pow04 * g0.z;
+                dx += ddot0 * x2 + pow04 * g0.X;
+                dy += ddot0 * y2 + pow04 * g0.Y;
+                dz += ddot0 * z2 + pow04 * g0.Z;
             }
 
             g0 = grad3[gi3];
             t0 = 0.5 - x3*x3 - y3*y3 - z3*z3;
             if (t0 > 0)
             {
-                dot0 = g0.x * x3 + g0.y * y3 + g0.z * z3;
+                dot0 = g0.X * x3 + g0.Y * y3 + g0.Z * z3;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
                 val += 32 * dot0 * pow04;
                 ddot0 = -8.0 * dot0 * pow02 * t0;
-                dx += ddot0 * x3 + pow04 * g0.x;
-                dy += ddot0 * y3 + pow04 * g0.y;
-                dz += ddot0 * z3 + pow04 * g0.z;
+                dx += ddot0 * x3 + pow04 * g0.X;
+                dy += ddot0 * y3 + pow04 * g0.Y;
+                dz += ddot0 * z3 + pow04 * g0.Z;
             }
 
-            return new Vector4(val, dx, dy, dz);
-        }
-
-        public static double dot(Vector3 g, double x, double y, double z)
-        {
-            return g.x * x + g.y * y + g.z * z;
+            return new Vector4(
+                (float)val,
+                (float)dx,
+                (float)dy,
+                (float)dz);
         }
 
         static int FastFloor(double x)
@@ -212,20 +210,9 @@ namespace Perlin
 
         private static Vector3[] grad3 = new Vector3[12]
         {
-            new Vector3(1,1,0),
-            new Vector3(-1,1,0),
-            new Vector3(1,-1,0),
-            new Vector3(-1,-1,0),
-
-            new Vector3(1,0,1),
-            new Vector3(-1,0,1),
-            new Vector3(1,0,-1),
-            new Vector3(-1,0,-1),
-            
-            new Vector3(0,1,1),
-            new Vector3(0,-1,1),
-            new Vector3(0,1,-1),
-            new Vector3(0,-1,-1),
+            new (1,1,0), new (-1,1,0), new (1,-1,0), new (-1,-1,0),
+            new (1,0,1), new (-1,0,1), new (1,0,-1), new (-1,0,-1),
+            new (0,1,1), new (0,-1,1), new (0,1,-1), new (0,-1,-1),
         };
 
         private static int[] p = 

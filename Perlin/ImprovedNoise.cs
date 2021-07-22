@@ -1,111 +1,13 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Perlin
 {
     public class ImprovedNoise
     {
-        public struct Vector4 {
-            public double x, y, z, w;
-
-            public Vector4(double x, double y, double z, double w)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-                this.w = w;
-            }
-        };
-
-        public struct Vector3 {
-            public double x, y, z;
-            public Vector3(double x, double y, double z)
-            {
-                this.x = x;
-                this.y = y;
-                this.z = z;
-            }
-            public Vector3(double a)
-            {
-                this.x = this.y = this.z = a;
-            }
-            public static Vector3 operator +(Vector3 a, Vector3 b)
-            {
-                return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
-            }
-            public static Vector3 zero = new Vector3(0,0,0);
-            public static Vector3 operator- (Vector3 a, Vector3 b)
-            {
-                Vector3 c = new Vector3();
-                c.x = b.x - a.x;
-                c.y = b.y - a.x;
-                c.z = b.z - a.z;
-                return c;
-            }
-            public static Vector3 operator+ (Vector3 a, double b) 
-            {
-                Vector3 c = new Vector3();
-                c.x = a.x + b;
-                c.y = a.y + b;
-                c.z = a.z + b;
-                return c;
-            }
-        }
-
-        public struct Vector2 {
-            public double x, y;
-            public Vector2(double x, double y)
-            {
-                this.x = x;
-                this.y = y;
-            }
-        }
-
-        public static double magnitude(Vector3 vector)
-        {
-            double a = vector.x * vector.x;
-            double b = vector.y * vector.y;
-            double c = vector.z * vector.z;
-            return Math.Sqrt(a + b + c); 
-        }
-
-        public static Vector3 normalize(Vector4 vector)
-        {
-            return normalize(new Vector3(vector.y, -1, vector.w));
-        }
-
-        public static Vector3 normalize(Vector3 vector)
-        {
-            double dist = magnitude(vector);
-            double a = vector.x / dist;
-            double b = vector.y / dist;
-            double c = vector.z / dist;
-            return new Vector3(a,b,c);
-        }
-
-        public static Vector3 cross(Vector3 vec1, Vector3 vec2)
-        {
-            double a = vec1.y * vec2.z - vec1.z * vec2.y;
-            double b = vec1.z * vec2.x - vec1.x * vec2.z;
-            double c = vec1.x * vec2.y - vec1.y * vec2.x;
-            return new Vector3(a,b,c);
-        }
-
-        public static double dot(Vector3 vec1, Vector3 vec2)
-        {
-            double a = vec1.x * vec2.x;
-            double b = vec1.y * vec2.y;
-            double c = vec1.z * vec2.z;
-            return a + b + c;
-        }
-
         public static int floor(double x)
         {
             return x > 0 ? (int) x : (int) (x - 1);
-        }
-
-        public static double gradient(double x1, double x2, double y1, double y2)
-        {
-            return (y2 - y1) / (x2 - x1);
         }
 
         public static int hash(int x, int y, int z)
@@ -127,9 +29,9 @@ namespace Perlin
             int yi = floor(y) & 255;
             int zi = floor(z) & 255;
 
-            double tx = x - floor(x);
-            double ty = y - floor(y);
-            double tz = z - floor(z);
+            float tx = (float)(x - floor(x)),
+                  ty = (float)(y - floor(y)),
+                  tz = (float)(z - floor(z));
 
             double u = fade(tx);
             double v = fade(ty);
@@ -163,26 +65,27 @@ namespace Perlin
             Vector3 c011 = gradients[hash(xi,   yi+1, zi+1)];
             Vector3 c111 = gradients[hash(xi+1, yi+1, zi+1)];
 
-            Vector3 p000 = new Vector3(tx,   ty,   tz);
-            Vector3 p100 = new Vector3(tx-1, ty,   tz);
-            Vector3 p010 = new Vector3(tx,   ty-1, tz);
-            Vector3 p110 = new Vector3(tx-1, ty-1, tz);
+            Vector3 p000 = new (tx,   ty,   tz),
+                    p100 = new (tx-1, ty,   tz),
+                    p010 = new (tx,   ty-1, tz),
+                    p110 = new (tx-1, ty-1, tz),
     
-            Vector3 p001 = new Vector3(tx,   ty,   tz-1);
-            Vector3 p101 = new Vector3(tx-1, ty,   tz-1);
-            Vector3 p011 = new Vector3(tx,   ty-1, tz-1);
-            Vector3 p111 = new Vector3(tx-1, ty-1, tz-1);
+                    p001 = new (tx,   ty,   tz-1),
+                    p101 = new (tx-1, ty,   tz-1),
+                    p011 = new (tx,   ty-1, tz-1),
+                    p111 = new (tx-1, ty-1, tz-1);
 
-            double va = dot(c000, p000);
-            double vb = dot(c100, p100);
-            double vc = dot(c010, p010);
-            double vd = dot(c110, p110);
+            float va = Vector3.Dot(c000, p000),
+                  vb = Vector3.Dot(c100, p100),
+                  vc = Vector3.Dot(c010, p010),
+                  vd = Vector3.Dot(c110, p110),
 
-            double ve = dot(c001, p001);
-            double vf = dot(c101, p101);
-            double vg = dot(c011, p011);
-            double vh = dot(c111, p111);
+                  ve = Vector3.Dot(c001, p001),
+                  vf = Vector3.Dot(c101, p101),
+                  vg = Vector3.Dot(c011, p011),
+                  vh = Vector3.Dot(c111, p111);
 
+            /*
             double k0 = va;
             double k1 = vb - va;
             double k2 = vc - va;
@@ -195,8 +98,66 @@ namespace Perlin
             double dx = du * (k1 + k4 * v + k6 * w + k7 * v * w);
             double dy = dv * (k2 + k4 * u + k5 * w + k7 * u * w);
             double dz = dw * (k3 + k5 * v + k6 * u + k7 * u * v);
+            */
+
+            
+            /*
+            double k0 = va;
+            double k1 = vb - va;
+            double k2 = vc - va;
+            double k3 = ve - va;
+            double k4 = (vd - vc) - (vb - va);
+            double k5 = (vg - ve) - (vc - va);
+            double k6 = (vf - ve) - (vb - va);
+            double k7 = (vh - vg) - (vf - ve) - (vd - vc) + (vb - va);
+
+            double dx = du * (k1 + k4 * v + k6 * w + k7 * v * w);
+            double dy = dv * (k2 + k4 * u + k5 * w + k7 * u * w);
+            double dz = dw * (k3 + k5 * v + k6 * u + k7 * u * v);
 
             double val = k0 + k1 * u + k2 * v + k3 * w + k4 * u * v + k5 * v * w + k6 * w * u + k7 * u * v * w;
+            */
+
+            double val = va * (1 - u) * (1 - v) * (1 - w) +
+                         vb * u * (1 - v) * (1 - w) +
+                         vc * (1 - u) * v * (1 - w) +
+                         ve * (1 - u) * (1 - v) * w +
+                         vf * u * (1 - v) * w +
+                         vg * (1 - u) * v * w +
+                         vd * u * v * (1 - w) +
+                         vh * u * v * w;
+
+            /*
+            double dx = vb * du * (1 - v) * (1 - w) +
+                        vf * du * (1 - v) * w +
+                        vd * du * v * (1 - w) +
+                        vh * du * v * w;
+            
+            double dy = vc * (1 - u) * dv * (1 - w) +
+                        vg * (1 - u) * dv * w +
+                        vd * u * dv * (1 - w) +
+                        vh * u * dv * w;
+
+            double dz = ve * (1 - u) * (1 - v) * dw +
+                        vf * u * (1 - v) * dw +
+                        vg * (1 - u) * v * dw +
+                        vh * u * v * dw;
+            */
+
+            double dx = du * (vb * (1 - v) * (1 - w) + 
+                              vf * (1 - v) * w + 
+                              vd * v * (1 - w) + 
+                              vh * v * w);
+            
+            double dy = dv * (vc * (1 - u) * (1 - w) +
+                              vg * (1 - u) * w +
+                              vd * u * (1 - w) +
+                              vh * u * w);
+
+            double dz = dw * (ve * (1 - u) * (1 - v) +
+                              vf * u * (1 - v) +
+                              vg * (1 - u) * v +
+                              vh * u * v);
 
             /*
             double val = lerp(w,
@@ -208,7 +169,11 @@ namespace Perlin
                             lerp(u, vg, vh)));
             */
 
-            return new Vector4(val, dx, dy, dz);
+            return new Vector4(
+                (float)val,
+                (float)dx,
+                (float)dy,
+                (float)dz);
         }
 
         static public double noise(double x, double y, double z) {
@@ -253,7 +218,6 @@ namespace Perlin
         static double lerp(double t, double a, double b)
         {
             return a + t * (b - a);
-            //return (1-t)*a + t*b;
         }
 
         static double grad(int hash, double x, double y, double z) {

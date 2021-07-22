@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using Vector4 = Perlin.ImprovedNoise.Vector4;
 
 namespace Perlin
 {
@@ -10,19 +9,15 @@ namespace Perlin
         static void Main(string[] args)
         {
             ImageDrawer drawer = new ImageDrawer(512, 512);
-            //Bitmap bitmap = ReadImage("1_1-8-0-520-merged06916.tif");
-            //WriteBitmap("1_1-8-0-520-merged06916.tif.tif", bitmap);
-
             float[] data = new float[512*512];
-            data = drawer.generate(FBM.nms, SimplexNoise.noised);
-            data = ImageDrawer.scale(data, 0, 255);
-            drawer.draw(data, "simplex-nms.png");
 
-            /*
-            data = drawer.generate(FBM.turbulence, SimplexNoise.noised);
+            data = drawer.generate(FBM.fbm, ImprovedNoiseDerivatives.noisedBitman);
             data = ImageDrawer.scale(data, 0, 255);
-            drawer.draw(data, "simplex-turbulence.png");
-            */
+            drawer.draw(data, "perlin-fbm-noisedBitman.png");
+
+            data = drawer.generate(FBM.fbm, ImprovedNoiseDerivatives.noisedBitman);
+            data = ImageDrawer.scale(data, 0, 255);
+            drawer.draw(data, "perlin-nms-noisedBitman.png");
         }
 
         private int width;
@@ -45,7 +40,7 @@ namespace Perlin
                 for (int j = 0; j < height; j++)
                 {
                     Vector4 noise = g(f, i, j, 0, 4);
-                    float value = (float)noise.x;
+                    float value = (float)noise.X;
                     data[i*height + j] = value;
                 }
             }
