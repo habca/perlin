@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplex", "Simplex\Simplex.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplexTest", "SimplexTest\SimplexTest.csproj", "{F50B7E9A-FB8D-44C5-846E-DDCBE5BBC236}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDrawer", "ImageDrawer\ImageDrawer.csproj", "{69458418-7BE3-4772-9C82-48C6BB141E44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +98,17 @@ Global
 		{F50B7E9A-FB8D-44C5-846E-DDCBE5BBC236}.Release|x64.Build.0 = Release|Any CPU
 		{F50B7E9A-FB8D-44C5-846E-DDCBE5BBC236}.Release|x86.ActiveCfg = Release|Any CPU
 		{F50B7E9A-FB8D-44C5-846E-DDCBE5BBC236}.Release|x86.Build.0 = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|x64.Build.0 = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Debug|x86.Build.0 = Debug|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|x64.ActiveCfg = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|x64.Build.0 = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|x86.ActiveCfg = Release|Any CPU
+		{69458418-7BE3-4772-9C82-48C6BB141E44}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

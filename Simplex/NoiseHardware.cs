@@ -1,21 +1,15 @@
 using System;
+using System.Numerics;
+
+using static Simplex.NoiseHardwarePerlin;
 
 namespace Simplex
 {
     public static class NoiseHardware
-    {
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello World!");
-        }
-        
+    {        
         static int[] sum(int[] a, int[] b)
         {
             return new int[]{a[0]+b[0],a[1]+b[1],a[2]+b[2]};
-        }
-        public static (int,int,int) floor(double sx, double sy, double sz)
-        {
-            return ((int)Math.Floor(sx),(int)Math.Floor(sy),(int)Math.Floor(sz));
         }
         public static (double,double,double) skew(double x, double y, double z)
         {
@@ -35,7 +29,10 @@ namespace Simplex
         public static double noise(double x, double y, double z) {
 
             (double sx, double sy, double sz) = skew  (  x,   y,   z);
-            (int    si, int    sj, int    sk) = floor ( sx,  sy,  sz);
+            
+            int si = (int)Math.Floor(sx),
+                sj = (int)Math.Floor(sy),
+                sk = (int)Math.Floor(sz);
 
             (double  i, double  j, double  k) = unskew(si, sj, sk);
             // artikkelissa simplex noise demystified x0,y0,z0
@@ -109,13 +106,13 @@ namespace Simplex
         static double gradient(int h, double x, double y, double z)
         {
             // 6-bit gradient index
-            int b5 = bit(h,5);
-            int b4 = bit(h,4);
-            int b3 = bit(h,3);
+            int b5 = b(h,5);
+            int b4 = b(h,4);
+            int b3 = b(h,3);
 
-            int b2 = bit(h,2);
-            int b1 = bit(h,1);
-            int b0 = bit(h,0);
+            int b2 = b(h,2);
+            int b1 = b(h,1);
+            int b0 = b(h,0);
 
             double[,] magnitude = new double[8,3]
             {
@@ -159,19 +156,5 @@ namespace Simplex
 
             return p + q + r;
         }
-        static int shuffle(int i, int j, int k) {
-            return b(i,j,k,0) + b(j,k,i,1) + b(k,i,j,2) + b(i,j,k,3) +
-                   b(j,k,i,4) + b(k,i,j,5) + b(i,j,k,6) + b(j,k,i,7);
-        }
-        static int b(int i, int j, int k, int B)
-        {
-            int patternIndex = 4 * bit(i,B) + 2 * bit(j,B) + bit(k,B);
-            return bitPatterns[patternIndex];
-        }
-        static int bit(int N, int B)
-        {
-            return (N >> B) & 1;
-        }
-        static int[] bitPatterns = {0x15,0x38,0x32,0x2c,0x0d,0x13,0x07,0x2a};
     }
 }

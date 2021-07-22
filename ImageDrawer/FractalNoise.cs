@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-namespace Perlin
+namespace ImageDrawer
 {
-    static class FBM
+    static class FractalNoise
     {
         public static Vector4 fbm(
             Func<double, double, double, Vector4> f,

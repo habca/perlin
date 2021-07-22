@@ -2,7 +2,7 @@
 
 namespace Simplex
 {
-    public static class Noise3 {
+    public static class NoiseHardwarePerlin {
         static int i,j,k;
         static int[] A = {0,0,0};
         static double u,v,w;
@@ -55,12 +55,12 @@ namespace Simplex
         return 8 * t * t * (p + q + r);
         // MUUTOKSET LOPPUVAT
     }
-    static int shuffle(int i, int j, int k) {
+    public static int shuffle(int i, int j, int k) {
         return b(i,j,k,0) + b(j,k,i,1) + b(k,i,j,2) + b(i,j,k,3) +
         b(j,k,i,4) + b(k,i,j,5) + b(i,j,k,6) + b(j,k,i,7) ;
     }
-    static int b(int i, int j, int k, int B) { return T[b(i,B)<<2 | b(j,B)<<1 | b(k,B)]; }
-    static int b(int N, int B) { return N>>B & 1; }
-    static int[] T = {0x15,0x38,0x32,0x2c,0x0d,0x13,0x07,0x2a};
+    public static int b(int i, int j, int k, int B) { return T[b(i,B)<<2 | b(j,B)<<1 | b(k,B)]; }
+    public static int b(int N, int B) { return N>>B & 1; }
+    public static int[] T = {0x15,0x38,0x32,0x2c,0x0d,0x13,0x07,0x2a};
     }
 }

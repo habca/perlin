@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-namespace Perlin
+namespace Simplex
 {
-    public class SimplexNoise
+    public static class SimplexNoiseGustavson
     {
         public static double skew(double x, double y, double z)
         {
@@ -203,7 +203,7 @@ namespace Perlin
                 (float)dz);
         }
 
-        static int FastFloor(double x)
+        public static int FastFloor(double x)
         {
             return x >= 0 ? (int)x : (int)x - 1;
         }
@@ -233,7 +233,7 @@ namespace Perlin
         };
 
         private static int[] perm = new int[512];
-        static SimplexNoise() 
+        static SimplexNoiseGustavson() 
         { 
             for (int i=0; i < 256; i++)
             {
