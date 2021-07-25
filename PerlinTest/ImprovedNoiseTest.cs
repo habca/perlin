@@ -27,9 +27,11 @@ namespace PerlinTest
                         double perlin = ImprovedNoisePerlin.noise(i, j, k);
                         Vector4 bourke = ImprovedNoiseBourke.noise(i, j, k);
                         Vector4 quilez = ImprovedNoiseQuilez.noise(i, j, k);
+                        double custom = ImprovedNoise.noise(i, j, k);
 
                         Assert.AreEqual(perlin, bourke.X, eps);
                         Assert.AreEqual(perlin, quilez.X, eps);
+                        Assert.AreEqual(perlin, custom, eps);
                     }
                 }
             }

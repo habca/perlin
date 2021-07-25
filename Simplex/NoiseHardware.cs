@@ -35,18 +35,17 @@ namespace Simplex
                 sk = (int)Math.Floor(sz);
 
             (double  i, double  j, double  k) = unskew(si, sj, sk);
-            // artikkelissa simplex noise demystified x0,y0,z0
             (double  u, double  v, double  w) = (x-i, y-j, z-k);
 
             // simplex vertice traversal order
             int[,][] simplex = new int[6,4][]
             {
-                { new int[]{0,0,0}, new int[]{1,0,0}, new int[]{0,1,0}, new int[]{0,0,1} }, // X Y Z
-                { new int[]{0,0,0}, new int[]{1,0,0}, new int[]{0,0,1}, new int[]{0,1,0} }, // X Z Y
-                { new int[]{0,0,0}, new int[]{0,0,1}, new int[]{1,0,0}, new int[]{0,1,0} }, // Z X Y
-                { new int[]{0,0,0}, new int[]{0,0,1}, new int[]{0,1,0}, new int[]{1,0,0} }, // Z Y X
-                { new int[]{0,0,0}, new int[]{0,1,0}, new int[]{0,0,1}, new int[]{1,0,0} }, // Y Z X
-                { new int[]{0,0,0}, new int[]{0,1,0}, new int[]{1,0,0}, new int[]{0,0,1} }, // Y X Z
+                { new[]{0,0,0}, new[]{1,0,0}, new[]{0,1,0}, new[]{0,0,1} }, // X Y Z
+                { new[]{0,0,0}, new[]{1,0,0}, new[]{0,0,1}, new[]{0,1,0} }, // X Z Y
+                { new[]{0,0,0}, new[]{0,0,1}, new[]{1,0,0}, new[]{0,1,0} }, // Z X Y
+                { new[]{0,0,0}, new[]{0,0,1}, new[]{0,1,0}, new[]{1,0,0} }, // Z Y X
+                { new[]{0,0,0}, new[]{0,1,0}, new[]{0,0,1}, new[]{1,0,0} }, // Y Z X
+                { new[]{0,0,0}, new[]{0,1,0}, new[]{1,0,0}, new[]{0,0,1} }, // Y X Z
             };
 
             // find the simplex since there are 6 in 3D
@@ -74,8 +73,6 @@ namespace Simplex
             int[] A
         )
         {
-            // artikkelissa simplex noise demystified
-            // x0 - (i1 - G3) sama kuin x0 - i1 + G3
             (double i, double j, double k) = unskew(A[0], A[1], A[2]);
             (double u, double v, double w) = (x-i, y-j, z-k);
 
@@ -84,23 +81,7 @@ namespace Simplex
 
             // hash pseudorandom 6-bit gradient index 
             int h = shuffle(si + A[0], sj + A[1], sk + A[2]);
-
-            // artikkelissa demystifying simplex noise
-            // h = gradientIndex ja x0,y0,z0 = u,v,w
-            // return 8 * t*t*t*t * dot(gradients[gradientIndex], x0, y0, z0);
-            return 8 * t*t*t*t * gradient(h, u, v, w);
-
-            // float x = point.x - ix;
-		    // float f = 1f - x * x;
-		    // float f2 = f * f;
-		    // float f3 = f * f2;
-            // Vector3 g = gradients3D[hash];
-			// float v = Dot(g, x, y, z);
-			// float v6f2 = -6f * v * f2;
-			// sample.value = v * f3;
-			// sample.derivative.x = g.x * f3 + v6f2 * x;
-			// sample.derivative.y = g.y * f3 + v6f2 * y;
-			// sample.derivative.z = g.z * f3 + v6f2 * z;
+            return 8f * t*t*t*t * gradient(h, u, v, w);
         }
 
         static double gradient(int h, double x, double y, double z)
@@ -116,15 +97,15 @@ namespace Simplex
 
             double[,] magnitude = new double[8,3]
             {
-                {x,y,z},
+                {z,x,y},
+                {x,y,0},
                 {y,z,0},
                 {z,x,0},
-                {x,y,0},
 
-                {x,y,z},
+                {z,x,y},
+                {x,0,z},
                 {y,0,x},
                 {z,0,y},
-                {x,0,z},
             };
 
             // 3-bit: bit2,bit1,bit0
@@ -153,7 +134,7 @@ namespace Simplex
             p = octant[b543,0];
             q = octant[b543,1];
             r = octant[b543,2];
-
+            
             return p + q + r;
         }
     }

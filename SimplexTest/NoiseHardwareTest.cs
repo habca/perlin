@@ -1,5 +1,9 @@
+// 
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System;
+using System.Numerics;
 
 using Simplex;
 
@@ -8,26 +12,29 @@ namespace SimplexTest
     [TestClass]
     public class NoiseHardwareTest
     {
-        /*
+        static double eps = 1E-2;
+        static double step = 5E-2;
+        static int min = -5;
+        static int max = 5;
+
         [TestMethod]
         public void NoiseTest()
         {
-            double eps = 1E-1;
-            
-            for (double i = -10; i < 10; i+=0.5)
+            for (double i = min; i < max; i+=step)
             {
-                for (double j = -10; j < 10; j+=0.5)
+                for (double j = min; j < max; j+=step)
                 {
-                    for (double k = -10; k < 10; k+=0.5)
+                    for (double k = min; k < max; k+=step)
                     {
-                        double expect = NoiseHardwarePerlin.noise(i,j,k);
-                        double actual = NoiseHardware.noise(i,j,k);
-
-                        Assert.AreEqual(expect, actual, eps);
+                        double perlin = NoiseHardwarePerlin.noise(i, j, k);
+                        double custom = NoiseHardware.noise(i, j, k);
+                        Vector4 gustavson = SimplexNoiseGustavson.noise(i, j, k);
+                        
+                        Assert.AreEqual(perlin, custom, eps);
+                        Assert.AreEqual(perlin, gustavson.X, eps);
                     }
                 }
             }
         }
-        */
     }
 }

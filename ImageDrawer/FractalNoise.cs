@@ -181,6 +181,7 @@ namespace ImageDrawer
 
             return new Vector4(sum, dsum.x, dsum.y, dsum.z);
         }
+        */
 
         public static Vector4 nms(
             Func<double, double, double, Vector4> f,
@@ -198,11 +199,11 @@ namespace ImageDrawer
             for (int i = 0; i < it; i++)
             {
                 Vector4 n = f(freq*x, freq*y, freq*z);
-                dsum.x += n.y;
-                dsum.y += n.z;
-                dsum.z = 0;
+                dsum.X += n.Y;
+                dsum.Y += n.Z;
+                dsum.Z += n.W;
 
-                sum += amp * n.x / (1f + ImprovedNoise.dot(dsum, dsum));
+                sum += amp * n.X / (1f + Vector3.Dot(dsum, dsum));
                 amp *= 0.5;
                 freq *= 2.0;
 
@@ -213,9 +214,10 @@ namespace ImageDrawer
                 //x = tmpx;
                 //y = tmpy;
             }
-            return new Vector4(sum, dsum.x, dsum.y, dsum.z);
+            return new Vector4( (float)sum, (float)dsum.X, (float)dsum.Y, (float)dsum.Z );
         }
 
+            /*
             public static Vector4 warp(
             Func<double, double, double, Vector4> f,
             double x,

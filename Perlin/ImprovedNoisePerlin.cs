@@ -1,7 +1,6 @@
 // https://mrl.cs.nyu.edu/~perlin/noise/
 
 using System;
-using System.Numerics;
 
 namespace Perlin
 {

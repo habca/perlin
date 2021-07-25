@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
+
+using Perlin;
 
 namespace ImageDrawer
 {
@@ -8,8 +11,37 @@ namespace ImageDrawer
     {
         static void Main(string[] args)
         {
+            run();
+        }
+
+        private static void run()
+        {
             ImageDrawer drawer = new ImageDrawer(512, 512);
             float[] data = new float[512*512];
+
+            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseBourke.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-bourke-fbm.png");
+
+            data = drawer.generate(FractalNoise.nms, ImprovedNoiseBourke.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-bourke-nms.png");
+
+            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseQuilez.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-quilez.fbm.png");
+
+            data = drawer.generate(FractalNoise.nms, ImprovedNoiseQuilez.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-quilez-nms.png");
+
+            data = drawer.generate(FractalNoise.fbm, Simplex.SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "simplex-qustavson-fbm.png");
+
+            data = drawer.generate(FractalNoise.nms, Simplex.SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "simplex-qustavson-nms.png");
         }
 
         private int width;
@@ -26,16 +58,23 @@ namespace ImageDrawer
             Func<double, double, double, Vector4> f
         )
         {
-        float[] data = new float[width * height];
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            
+            float[] data = new float[width * height];
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Vector4 noise = g(f, i, j, 0, 4);
+                    Vector4 noise = g(f, i, j, 0, 1);
                     float value = (float)noise.X;
                     data[i*height + j] = value;
                 }
             }
+
+            stopWatch.Stop();
+            Console.WriteLine(stopWatch.Elapsed);
+
             return data;
         }
 
@@ -54,6 +93,8 @@ namespace ImageDrawer
             {
                 newdata[i] = scale(data[i], oldmin, oldmax, newmin, newmax);
             }
+            
+            Console.WriteLine("min: "+oldmin+", max: "+oldmax);
 
             return newdata;
         }
@@ -62,19 +103,6 @@ namespace ImageDrawer
         {
             return (newmax - newmin) * ((val - oldmin) / (oldmax - oldmin)) + newmin;
         }
-
-        #nullable enable
-        public static Bitmap ReadImage(string filepath)
-        {
-            return new Bitmap(Image.FromFile(filepath));
-        }
-
-        public static void WriteBitmap(string filepath, Bitmap? bitmap)
-        {
-            // Huom! Tekee eri kuin mikä avattu!
-            bitmap?.Save(filepath, System.Drawing.Imaging.ImageFormat.Tiff);
-        }
-        #nullable disable
 
         public void draw(float[] data, string file)
         {
