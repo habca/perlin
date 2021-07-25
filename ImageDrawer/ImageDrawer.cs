@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Numerics;
 
 using Perlin;
+using Simplex;
 
 namespace ImageDrawer
 {
@@ -11,7 +12,49 @@ namespace ImageDrawer
     {
         static void Main(string[] args)
         {
+            //test();
             run();
+        }
+
+        private static void test()
+        {
+            Console.WriteLine("Classic noise:");
+            Vector3[] classic = TestPerlin();
+            foreach (var grad in classic)
+            {
+                Console.WriteLine(grad);
+            }
+
+            Console.WriteLine("Simplex noise:");
+            Vector3[] simplex = TestSimplex();
+            foreach (var grad in simplex)
+            {
+                Console.WriteLine(grad);
+            }
+        }
+
+        private static Vector3[] TestPerlin()
+        {
+            Vector3[] grads = new Vector3[16];
+            for (int h = 0; h < grads.Length; h++)
+            {
+                grads[h].X = (float)ImprovedNoisePerlin.grad(h, 1, 0, 0);
+                grads[h].Y = (float)ImprovedNoisePerlin.grad(h, 0, 1, 0);
+                grads[h].Z = (float)ImprovedNoisePerlin.grad(h, 0, 0, 1);
+            }
+            return grads;
+        }
+
+        private static Vector3[] TestSimplex()
+        {
+            Vector3[] grads = new Vector3[64];
+            for (int h = 0; h < grads.Length; h++)
+            {
+                grads[h].X = (float)NoiseHardware.grad2(h, 1, 0, 0);
+                grads[h].Y = (float)NoiseHardware.grad2(h, 0, 1, 0);
+                grads[h].Z = (float)NoiseHardware.grad2(h, 0, 0, 1);
+            }
+            return grads;
         }
 
         private static void run()
@@ -66,7 +109,7 @@ namespace ImageDrawer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Vector4 noise = g(f, i, j, 0, 1);
+                    Vector4 noise = g(f, i, j, 0, 4);
                     float value = (float)noise.X;
                     data[i*height + j] = value;
                 }

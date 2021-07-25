@@ -194,7 +194,7 @@ namespace Simplex
             return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
         }
 
-        public static Vector3[] grad3 = new Vector3[64]
+        public static Vector3[] grad3 =
         {
             new(-1,1,-1),
             new(-1,-1,0),
