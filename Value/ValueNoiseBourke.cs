@@ -4,10 +4,12 @@ using System;
 using System.Numerics;
 
 using static Perlin.ImprovedNoisePerlin;
+using static Value.ValueNoiseQuilez;
 
-namespace Perlin
+
+namespace Value
 {
-    public static class ImprovedNoiseBourke
+    public static class ValueNoiseBourke
     {
         static public Vector4 noise(double x, double y, double z) {
             int X = (int)Math.Floor(x) & 255;
@@ -25,7 +27,7 @@ namespace Perlin
             double du = derva(x);
             double dv = derva(y);
             double dw = derva(z);
-            
+
             int A = p[X  ]+Y, AA = p[A]+Z, AB = p[A+1]+Z;
             int B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;
 
@@ -77,9 +79,9 @@ namespace Perlin
             return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
         }
 
-        public static double derva(double t)
+        public static Vector4 noise(Vector3 vec)
         {
-            return 30 * t * t * (t * (t - 2) + 1);
+            return noise(vec.X, vec.Y, vec.Z);
         }
     }
 }

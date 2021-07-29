@@ -1,6 +1,7 @@
 // https://mrl.cs.nyu.edu/~perlin/noise/
 
 using System;
+using System.Numerics;
 
 namespace Perlin
 {
@@ -40,9 +41,9 @@ namespace Perlin
             return t * t * t * (t * (t * 6 - 15) + 10);
         }
 
-        public static double lerp(double t, double a, double b)
+        public static float lerp(double t, double a, double b)
         {
-            return a + t * (b - a);
+            return (float)(a + t * (b - a));
         }
 
         public static double grad(int hash, double x, double y, double z) {
@@ -74,6 +75,11 @@ namespace Perlin
             {
                 p[256+i] = p[i] = permutation[i];
             }
+        }
+
+        public static double noise(Vector3 vec)
+        {
+            return noise(vec.X, vec.Y, vec.Z);
         }
     }
 }

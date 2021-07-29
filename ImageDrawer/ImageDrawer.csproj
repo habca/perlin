@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Perlin\Perlin.csproj" />
     <ProjectReference Include="..\Simplex\Simplex.csproj" />
+    <ProjectReference Include="..\Value\Value.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

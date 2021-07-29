@@ -4,11 +4,10 @@ using System;
 using System.Numerics;
 
 using static Perlin.ImprovedNoisePerlin;
-using static Perlin.ImprovedNoiseBourke;
 
-namespace Perlin
+namespace Value
 {
-    public class ImprovedNoiseQuilez
+    public static class ValueNoiseQuilez
     {
         public static Vector4 noise(double x, double y, double z)
         {
@@ -31,14 +30,14 @@ namespace Perlin
             int A = p[X  ]+Y, AA = p[A]+Z, AB = p[A+1]+Z;
             int B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;
 
-            double a = grad(p[AA  ], x  , y  , z   );
-            double b = grad(p[BA  ], x-1, y  , z   );
-            double c = grad(p[AB  ], x  , y-1, z   );
-            double e = grad(p[AA+1], x  , y  , z-1 );
-            double f = grad(p[BA+1], x-1, y  , z-1 );
-            double g = grad(p[AB+1], x  , y-1, z-1 );
-            double d = grad(p[BB  ], x-1, y-1, z   );
-            double h = grad(p[BB+1], x-1, y-1, z-1 );
+            double a = grad(p[AA  ], x,   y,   z );
+            double b = grad(p[BA  ], x-1, y,   z );
+            double c = grad(p[AB  ], x,   y-1, z );
+            double e = grad(p[AA+1], x,   y,   z-1);
+            double f = grad(p[BA+1], x-1, y,   z-1);
+            double g = grad(p[AB+1], x,   y-1, z-1);
+            double d = grad(p[BB  ], x-1, y-1, z );
+            double h = grad(p[BB+1], x-1, y-1, z-1);
 
             double k0 = a;
             double k1 = b - a;
@@ -56,6 +55,16 @@ namespace Perlin
             double dz = dw * (k3 + k5 * v + k6 * u + k7 * u * v);
 
             return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
+        }
+
+        public static double derva(double t)
+        {
+            return 30 * t * t * (t * (t - 2) + 1);
+        }
+
+        public static Vector4 noise(Vector3 vec)
+        {
+            return noise(vec.X, vec.Y, vec.Z);
         }
     }
 }

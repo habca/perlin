@@ -129,9 +129,9 @@ namespace Simplex
                 //dy += ddot0 * y0 + pow04 * g0.Y;
                 //dz += ddot0 * z0 + pow04 * g0.Z;
 
-                dx += 8*(ddot0 * x0 + pow04 * g0.X);
-                dy += 8*(ddot0 * y0 + pow04 * g0.Y);
-                dz += 8*(ddot0 * z0 + pow04 * g0.Z);
+                dx += 8*(ddot0 * x0);
+                dy += 8*(ddot0 * y0);
+                dz += 8*(ddot0 * z0);
             }
             
             g0 = grad3[gi1];
@@ -148,9 +148,9 @@ namespace Simplex
                 //dy += ddot0 * y1 + pow04 * g0.Y;
                 //dz += ddot0 * z1 + pow04 * g0.Z;
                 
-                dx += 8*(ddot0 * x1 + pow04 * g0.X);
-                dy += 8*(ddot0 * y1 + pow04 * g0.Y);
-                dz += 8*(ddot0 * z1 + pow04 * g0.Z);
+                dx += 8*(ddot0 * x1);
+                dy += 8*(ddot0 * y1);
+                dz += 8*(ddot0 * z1);
             }
 
             g0 = grad3[gi2];
@@ -167,9 +167,9 @@ namespace Simplex
                 //dy += ddot0 * y2 + pow04 * g0.Y;
                 //dz += ddot0 * z2 + pow04 * g0.Z;
 
-                dx += 8*(ddot0 * x2 + pow04 * g0.X);
-                dy += 8*(ddot0 * y2 + pow04 * g0.Y);
-                dz += 8*(ddot0 * z2 + pow04 * g0.Z);
+                dx += 8*(ddot0 * x2);
+                dy += 8*(ddot0 * y2);
+                dz += 8*(ddot0 * z2);
             }
 
             g0 = grad3[gi3];
@@ -186,9 +186,9 @@ namespace Simplex
                 //dy += ddot0 * y3 + pow04 * g0.Y;
                 //dz += ddot0 * z3 + pow04 * g0.Z;
 
-                dx += 8*(ddot0 * x3 + pow04 * g0.X);
-                dy += 8*(ddot0 * y3 + pow04 * g0.Y);
-                dz += 8*(ddot0 * z3 + pow04 * g0.Z);
+                dx += 8*(ddot0 * x3);
+                dy += 8*(ddot0 * y3);
+                dz += 8*(ddot0 * z3);
             }
 
             return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
@@ -268,5 +268,27 @@ namespace Simplex
             new(-1,-1,0),
             new(0,-1,-1),
         };
+
+        /*
+        private static Vector3[] Grad3()
+        {
+            Vector3[] grads = new Vector3[64];
+            for (int h = 0; h < grads.Length; h++)
+            {
+                grads[h].X = grad(h, 1, 0, 0);
+                grads[h].Y = grad(h, 0, 1, 0);
+                grads[h].Z = grad(h, 0, 0, 1);
+            }
+            return grads;
+
+            static float grad(int h, float x, float y, float z)
+            {
+                int b5 = h>>5 & 1, b4 = h>>4 & 1, b3 = h>>3 & 1, b2= h>>2 & 1, b = h & 3;
+                float p = b==1?x:b==2?y:z, q = b==1?y:b==2?z:x, r = b==1?z:b==2?x:y;
+                p = (b5==b3 ? -p : p); q = (b5==b4 ? -q : q); r = (b5!=(b4^b3) ? -r : r);
+                return p + (b==0 ? q+r : b2==0 ? q : r);
+            }
+        }
+        */
     }
 }

@@ -137,13 +137,5 @@ namespace Simplex
             
             return p + q + r;
         }
-
-        public static double grad2(int h, double x, double y, double z)
-        {
-            int b5 = h>>5 & 1, b4 = h>>4 & 1, b3 = h>>3 & 1, b2= h>>2 & 1, b = h & 3;
-            double p = b==1?x:b==2?y:z, q = b==1?y:b==2?z:x, r = b==1?z:b==2?x:y;
-            p = (b5==b3 ? -p : p); q = (b5==b4 ? -q : q); r = (b5!=(b4^b3) ? -r : r);
-            return p + (b==0 ? q+r : b2==0 ? q : r);
-        }
     }
 }

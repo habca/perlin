@@ -5,6 +5,7 @@ using System.Numerics;
 
 using Perlin;
 using Simplex;
+using Value;
 
 namespace ImageDrawer
 {
@@ -12,79 +13,50 @@ namespace ImageDrawer
     {
         static void Main(string[] args)
         {
-            //test();
-            run();
+            Run();
+            //NoiseGradients.Run();
         }
 
-        private static void test()
-        {
-            Console.WriteLine("Classic noise:");
-            Vector3[] classic = TestPerlin();
-            foreach (var grad in classic)
-            {
-                Console.WriteLine(grad);
-            }
-
-            Console.WriteLine("Simplex noise:");
-            Vector3[] simplex = TestSimplex();
-            foreach (var grad in simplex)
-            {
-                Console.WriteLine(grad);
-            }
-        }
-
-        private static Vector3[] TestPerlin()
-        {
-            Vector3[] grads = new Vector3[16];
-            for (int h = 0; h < grads.Length; h++)
-            {
-                grads[h].X = (float)ImprovedNoisePerlin.grad(h, 1, 0, 0);
-                grads[h].Y = (float)ImprovedNoisePerlin.grad(h, 0, 1, 0);
-                grads[h].Z = (float)ImprovedNoisePerlin.grad(h, 0, 0, 1);
-            }
-            return grads;
-        }
-
-        private static Vector3[] TestSimplex()
-        {
-            Vector3[] grads = new Vector3[64];
-            for (int h = 0; h < grads.Length; h++)
-            {
-                grads[h].X = (float)NoiseHardware.grad2(h, 1, 0, 0);
-                grads[h].Y = (float)NoiseHardware.grad2(h, 0, 1, 0);
-                grads[h].Z = (float)NoiseHardware.grad2(h, 0, 0, 1);
-            }
-            return grads;
-        }
-
-        private static void run()
+        private static void Run()
         {
             ImageDrawer drawer = new ImageDrawer(512, 512);
             float[] data = new float[512*512];
 
-            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseBourke.noise);
+            data = drawer.generate(FractalNoise.fbm, ValueNoiseBourke.noise);
             data = scale(data, 0, 255);
             drawer.draw(data, "perlin-bourke-fbm.png");
 
-            data = drawer.generate(FractalNoise.nms, ImprovedNoiseBourke.noise);
+            data = drawer.generate(FractalNoise.nms, ValueNoiseBourke.noise);
             data = scale(data, 0, 255);
             drawer.draw(data, "perlin-bourke-nms.png");
 
-            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseQuilez.noise);
+            data = drawer.generate(FractalNoise.fbm, ValueNoiseQuilez.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-quilez.fbm.png");
+            drawer.draw(data, "perlin-quilez-fbm.png");
 
-            data = drawer.generate(FractalNoise.nms, ImprovedNoiseQuilez.noise);
+            data = drawer.generate(FractalNoise.nms, ValueNoiseQuilez.noise);
             data = scale(data, 0, 255);
             drawer.draw(data, "perlin-quilez-nms.png");
 
-            data = drawer.generate(FractalNoise.fbm, Simplex.SimplexNoiseGustavson.noise);
+            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-gustavson-fbm.png");
+
+            data = drawer.generate(FractalNoise.nms, ImprovedNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-gustavson-nms.png");
+
+            data = drawer.generate(FractalNoise.fbm, SimplexNoiseGustavson.noise);
             data = scale(data, 0, 255);
             drawer.draw(data, "simplex-qustavson-fbm.png");
 
-            data = drawer.generate(FractalNoise.nms, Simplex.SimplexNoiseGustavson.noise);
+            data = drawer.generate(FractalNoise.nms, SimplexNoiseGustavson.noise);
             data = scale(data, 0, 255);
             drawer.draw(data, "simplex-qustavson-nms.png");
+
+            data = drawer.generate(FractalNoise.nms, ImprovedNoise.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, "perlin-custom-nms.png");
         }
 
         private int width;
