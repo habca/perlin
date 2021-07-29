@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-using static Simplex.NoiseHardwarePerlin;
+using static ProceduralNoises.NoiseHardwarePerlin;
 
-namespace Simplex
+namespace ProceduralNoises
 {
     public static class SimplexNoiseGustavson
     {

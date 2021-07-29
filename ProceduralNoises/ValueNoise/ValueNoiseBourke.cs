@@ -3,11 +3,10 @@
 using System;
 using System.Numerics;
 
-using static Perlin.ImprovedNoisePerlin;
-using static Value.ValueNoiseQuilez;
+using static ProceduralNoises.ImprovedNoisePerlin;
+using static ProceduralNoises.ValueNoiseQuilez;
 
-
-namespace Value
+namespace ProceduralNoises
 {
     public static class ValueNoiseBourke
     {

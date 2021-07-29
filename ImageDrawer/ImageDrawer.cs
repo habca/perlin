@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Numerics;
 
-using Perlin;
-using Simplex;
-using Value;
+using ProceduralNoises;
 
 namespace ImageDrawer
 {
@@ -14,7 +13,15 @@ namespace ImageDrawer
         static void Main(string[] args)
         {
             Run();
-            //NoiseGradients.Run();
+            //Test();
+        }
+
+        private static void Test()
+        {
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin);
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin3D);
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin4D);
+            NoiseGradients.Run(NoiseGradients.GradientsSimplex);
         }
 
         private static void Run()
@@ -22,41 +29,51 @@ namespace ImageDrawer
             ImageDrawer drawer = new ImageDrawer(512, 512);
             float[] data = new float[512*512];
 
-            data = drawer.generate(FractalNoise.fbm, ValueNoiseBourke.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-bourke-fbm.png");
+            string dir = "kuvat/";
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
 
-            data = drawer.generate(FractalNoise.nms, ValueNoiseBourke.noise);
+            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseBourke.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-bourke-nms.png");
+            drawer.draw(data, dir+"value-bourke-fbm.png");
 
-            data = drawer.generate(FractalNoise.fbm, ValueNoiseQuilez.noise);
+            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseBourke.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-quilez-fbm.png");
+            drawer.draw(data, dir+"value-bourke-nms.png");
 
-            data = drawer.generate(FractalNoise.nms, ValueNoiseQuilez.noise);
+            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseQuilez.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-quilez-nms.png");
+            drawer.draw(data, dir+"value-quilez-fbm.png");
 
-            data = drawer.generate(FractalNoise.fbm, ImprovedNoiseGustavson.noise);
+            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseQuilez.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-gustavson-fbm.png");
+            drawer.draw(data, dir+"value-quilez-nms.png");
 
-            data = drawer.generate(FractalNoise.nms, ImprovedNoiseGustavson.noise);
+            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoise.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-gustavson-nms.png");
+            drawer.draw(data, dir+"perlin-custom-fbm.png");
 
-            data = drawer.generate(FractalNoise.fbm, SimplexNoiseGustavson.noise);
+            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoise.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "simplex-qustavson-fbm.png");
+            drawer.draw(data, dir+"perlin-custom-nms.png");
 
-            data = drawer.generate(FractalNoise.nms, SimplexNoiseGustavson.noise);
+            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoiseGustavson.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "simplex-qustavson-nms.png");
+            drawer.draw(data, dir+"perlin-gustavson-fbm.png");
 
-            data = drawer.generate(FractalNoise.nms, ImprovedNoise.noise);
+            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoiseGustavson.noise);
             data = scale(data, 0, 255);
-            drawer.draw(data, "perlin-custom-nms.png");
+            drawer.draw(data, dir+"perlin-gustavson-nms.png");
+
+            data = drawer.generate(FractionalBrownianMotion.fbm, SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir+"simplex-qustavson-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir+"simplex-qustavson-nms.png");
         }
 
         private int width;

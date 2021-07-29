@@ -1,38 +1,29 @@
 using System;
 using System.Numerics;
 
-using Perlin;
-using Simplex;
+using ProceduralNoises;
 
 namespace ImageDrawer
 {
     public static class NoiseGradients
     {
-        public static void Run()
+        public static void Run(Func<Vector3[]> gradientNoise)
         {
-            Console.WriteLine("Classic noise 3D:");
-            Vector3[] perlin = TestPerlin();
-            foreach (var grad in perlin)
+            foreach (var gradientVector in gradientNoise())
             {
-                Console.WriteLine(grad);
-            }
-
-            Console.WriteLine("Simplex noise 3D:");
-            Vector3[] simplex = TestSimplex();
-            foreach (var grad in simplex)
-            {
-                Console.WriteLine(grad);
-            }
-
-            Console.WriteLine("Classic noise 4D:");
-            Vector4[] perlin4 = TestPerlin4();
-            foreach (var grad in perlin4)
-            {
-                Console.WriteLine(grad);
+                Console.WriteLine(gradientVector);
             }
         }
 
-        private static Vector3[] TestPerlin()
+        public static void Run(Func<Vector4[]> gradientNoise)
+        {
+            foreach (var gradientVector in gradientNoise())
+            {
+                Console.WriteLine(gradientVector);
+            }
+        }
+
+        public static Vector3[] GradientsPerlin()
         {
             Vector3[] grads = new Vector3[16];
             for (int h = 0; h < grads.Length; h++)
@@ -44,7 +35,7 @@ namespace ImageDrawer
             return grads;
         }
 
-        private static Vector3[] TestSimplex()
+        public static Vector3[] GradientsSimplex()
         {
             Vector3[] grads = new Vector3[64];
             for (int h = 0; h < grads.Length; h++)
@@ -56,7 +47,7 @@ namespace ImageDrawer
             return grads;
         }
 
-        private static Vector4[] TestPerlin4()
+        public static Vector4[] GradientsPerlin4D()
         {
             Vector4[] grads = new Vector4[32];
             for (int h = 0; h < grads.Length; h++)
@@ -65,6 +56,18 @@ namespace ImageDrawer
                 grads[h].Y = (float)ImprovedNoise4DPerlin.grad(h, 0, 1, 0, 0);
                 grads[h].Z = (float)ImprovedNoise4DPerlin.grad(h, 0, 0, 1, 0);
                 grads[h].W = (float)ImprovedNoise4DPerlin.grad(h, 0, 0, 0, 1);
+            }
+            return grads;
+        }
+
+        public static Vector3[] GradientsPerlin3D()
+        {
+            Vector3[] grads = new Vector3[16];
+            for (int h = 0; h < grads.Length; h++)
+            {
+                grads[h].X = (float)ImprovedNoise3DPerlin.grad(h, 1, 0, 0);
+                grads[h].Y = (float)ImprovedNoise3DPerlin.grad(h, 0, 1, 0);
+                grads[h].Z = (float)ImprovedNoise3DPerlin.grad(h, 0, 0, 1);
             }
             return grads;
         }

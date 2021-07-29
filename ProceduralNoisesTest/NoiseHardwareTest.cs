@@ -5,9 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Numerics;
 
-using Simplex;
+using ProceduralNoises;
 
-namespace SimplexTest
+namespace ProceduralNoisesTest
 {
     [TestClass]
     public class NoiseHardwareTest

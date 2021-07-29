@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Simplex\Simplex.csproj" />
+    <ProjectReference Include="..\ProceduralNoises\ProceduralNoises.csproj" />
   </ItemGroup>
 
 </Project>

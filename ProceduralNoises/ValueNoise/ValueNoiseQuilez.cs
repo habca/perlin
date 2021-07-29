@@ -3,9 +3,9 @@
 using System;
 using System.Numerics;
 
-using static Perlin.ImprovedNoisePerlin;
+using static ProceduralNoises.ImprovedNoisePerlin;
 
-namespace Value
+namespace ProceduralNoises
 {
     public static class ValueNoiseQuilez
     {

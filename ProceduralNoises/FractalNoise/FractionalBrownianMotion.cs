@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-namespace ImageDrawer
+namespace ProceduralNoises
 {
-    static class FractalNoise
+    public static class FractionalBrownianMotion
     {
         public static Vector4 fbm(
             Func<double, double, double, Vector4> f,

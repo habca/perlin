@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Simplex
+namespace ProceduralNoises
 {
     public static class NoiseHardwarePerlin {
         static int i,j,k;

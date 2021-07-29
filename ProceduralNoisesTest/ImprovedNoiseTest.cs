@@ -2,9 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Numerics;
 
-using Perlin;
+using ProceduralNoises;
 
-namespace PerlinTest
+namespace ProceduralNoisesTest
 {
     [TestClass]
     public class ImprovedNoiseTest

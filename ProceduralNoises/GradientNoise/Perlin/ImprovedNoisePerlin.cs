@@ -3,7 +3,7 @@
 using System;
 using System.Numerics;
 
-namespace Perlin
+namespace ProceduralNoises
 {
     public static class ImprovedNoisePerlin
     {

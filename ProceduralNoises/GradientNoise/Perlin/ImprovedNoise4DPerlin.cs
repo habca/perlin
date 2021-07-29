@@ -2,9 +2,9 @@
 
 using System;
 
-using static Perlin.ImprovedNoisePerlin;
+using static ProceduralNoises.ImprovedNoisePerlin;
 
-namespace Perlin
+namespace ProceduralNoises
 {
     public static class ImprovedNoise4DPerlin {
         public static double noise(double x, double y, double z, double w) {

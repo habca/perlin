@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perlin", "Perlin\Perlin.csproj", "{B7789022-07A2-4BD3-9247-9DBB2DD46359}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerlinTest", "PerlinTest\PerlinTest.csproj", "{090E59CF-3814-4C09-AB1A-9E8515B3441B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simplex", "Simplex\Simplex.csproj", "{A39FD340-905F-4F8E-B1E5-1C7EA32446F8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplexTest", "SimplexTest\SimplexTest.csproj", "{F50B7E9A-FB8D-44C5-846E-DDCBE5BBC236}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageDrawer", "ImageDrawer\ImageDrawer.csproj", "{69458418-7BE3-4772-9C82-48C6BB141E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Value", "Value\Value.csproj", "{62E2D56C-2336-4C17-A39D-5820E0C5AE24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralNoises", "ProceduralNoises\ProceduralNoises.csproj", "{A8C13341-0C4F-4B17-AB2E-3706068A78F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueTest", "ValueTest\ValueTest.csproj", "{A7A4C173-C8B4-4D5C-A038-259195B8FFC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralNoisesTest", "ProceduralNoisesTest\ProceduralNoisesTest.csproj", "{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,5 +130,29 @@ Global
 		{A7A4C173-C8B4-4D5C-A038-259195B8FFC8}.Release|x64.Build.0 = Release|Any CPU
 		{A7A4C173-C8B4-4D5C-A038-259195B8FFC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7A4C173-C8B4-4D5C-A038-259195B8FFC8}.Release|x86.Build.0 = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|x64.Build.0 = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{A8C13341-0C4F-4B17-AB2E-3706068A78F8}.Release|x86.Build.0 = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|x64.Build.0 = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Debug|x86.Build.0 = Debug|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|x64.ActiveCfg = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|x64.Build.0 = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|x86.ActiveCfg = Release|Any CPU
+		{FC0BD99B-07B2-4796-B6CC-2A9B0B677929}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

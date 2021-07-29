@@ -5,9 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Perlin\Perlin.csproj" />
-    <ProjectReference Include="..\Simplex\Simplex.csproj" />
-    <ProjectReference Include="..\Value\Value.csproj" />
+    <ProjectReference Include="..\ProceduralNoises\ProceduralNoises.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,9 +1,9 @@
 using System;
 using System.Numerics;
 
-using static Perlin.ImprovedNoisePerlin;
+using static ProceduralNoises.ImprovedNoisePerlin;
 
-namespace Perlin
+namespace ProceduralNoises
 {
     public static class ImprovedNoise
     {

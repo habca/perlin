@@ -2,10 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Numerics;
 
-using Perlin;
-using Value;
+using ProceduralNoises;
 
-namespace ValueTest
+namespace ProceduralNoisesTest
 {
     [TestClass]
     public class ValueNoiseTest

@@ -1,10 +1,10 @@
 using System;
 using System.Numerics;
 
-using static Perlin.ImprovedNoisePerlin;
-using static Perlin.ImprovedNoise;
+using static ProceduralNoises.ImprovedNoisePerlin;
+using static ProceduralNoises.ImprovedNoise;
 
-namespace Perlin
+namespace ProceduralNoises
 {
     public static class ImprovedNoiseGustavson
     {
