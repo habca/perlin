@@ -113,26 +113,24 @@ namespace ProceduralNoises
 
             Vector3 g0;
             double val = 0, dx = 0, dy = 0, dz = 0;
-            double t0 = 0, dot0 = 0, pow02 = 0, pow04 = 0, ddot0 = 0;
+            double t0, dot0, pow02, pow04;
+            Vector4 v1 = Vector4.Zero, v2 = Vector4.Zero, v3 = Vector4.Zero, v4 = Vector4.Zero;
 
             g0 = grad3[gi0];
             t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
-            if (t0 > 0) 
+            if (t0 > 0)
             {
                 dot0 = g0.X * x0 + g0.Y * y0 + g0.Z * z0;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
-                val += 8 * dot0 * pow04;
-                ddot0 = -8.0 * dot0 * pow02 * t0;
-                
-                //dx += ddot0 * x0 + pow04 * g0.X;
-                //dy += ddot0 * y0 + pow04 * g0.Y;
-                //dz += ddot0 * z0 + pow04 * g0.Z;
 
-                dx += 8*(ddot0 * x0);
-                dy += 8*(ddot0 * y0);
-                dz += 8*(ddot0 * z0);
+                val = 8 * dot0 * pow04;
+                dx = -64 * pow02 * t0 * x0 * dot0 + 8 * pow04 * g0.X;
+                dy = -64 * pow02 * t0 * y0 * dot0 + 8 * pow04 * g0.Y;
+                dz = -64 * pow02 * t0 * z0 * dot0 + 8 * pow04 * g0.Z;
+                v1 = new Vector4((float)val, (float)dx, (float)dy, (float)dz);
             }
+            
             
             g0 = grad3[gi1];
             t0 = 0.6 - x1*x1 - y1*y1 - z1*z1;
@@ -141,16 +139,11 @@ namespace ProceduralNoises
                 dot0 = g0.X * x1 + g0.Y * y1 + g0.Z * z1;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
-                val += 8 * dot0 * pow04;
-                ddot0 = -8.0 * dot0 * pow02 * t0;
-
-                //dx += ddot0 * x1 + pow04 * g0.X;
-                //dy += ddot0 * y1 + pow04 * g0.Y;
-                //dz += ddot0 * z1 + pow04 * g0.Z;
-                
-                dx += 8*(ddot0 * x1);
-                dy += 8*(ddot0 * y1);
-                dz += 8*(ddot0 * z1);
+                val = 8 * dot0 * pow04;
+                dx = -64 * pow02 * t0 * x1 * dot0 + 8 * pow04 * g0.X;
+                dy = -64 * pow02 * t0 * y1 * dot0 + 8 * pow04 * g0.Y;
+                dz = -64 * pow02 * t0 * z1 * dot0 + 8 * pow04 * g0.Z;
+                v2 = new Vector4((float)val, (float)dx, (float)dy, (float)dz);
             }
 
             g0 = grad3[gi2];
@@ -160,16 +153,11 @@ namespace ProceduralNoises
                 dot0 = g0.X * x2 + g0.Y * y2 + g0.Z * z2;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
-                val += 8 * dot0 * pow04;
-                ddot0 = -8.0 * dot0 * pow02 * t0;
-                
-                //dx += ddot0 * x2 + pow04 * g0.X;
-                //dy += ddot0 * y2 + pow04 * g0.Y;
-                //dz += ddot0 * z2 + pow04 * g0.Z;
-
-                dx += 8*(ddot0 * x2);
-                dy += 8*(ddot0 * y2);
-                dz += 8*(ddot0 * z2);
+                val = 8 * dot0 * pow04;
+                dx = -64 * pow02 * t0 * x2 * dot0 + 8 * pow04 * g0.X;
+                dy = -64 * pow02 * t0 * y2 * dot0 + 8 * pow04 * g0.Y;
+                dz = -64 * pow02 * t0 * z2 * dot0 + 8 * pow04 * g0.Z;
+                v3 = new Vector4((float)val, (float)dx, (float)dy, (float)dz);
             }
 
             g0 = grad3[gi3];
@@ -179,94 +167,90 @@ namespace ProceduralNoises
                 dot0 = g0.X * x3 + g0.Y * y3 + g0.Z * z3;
                 pow02 = t0 * t0;
                 pow04 = pow02 * pow02;
-                val += 8 * dot0 * pow04;
-                ddot0 = -8.0 * dot0 * pow02 * t0;
-
-                //dx += ddot0 * x3 + pow04 * g0.X;
-                //dy += ddot0 * y3 + pow04 * g0.Y;
-                //dz += ddot0 * z3 + pow04 * g0.Z;
-
-                dx += 8*(ddot0 * x3);
-                dy += 8*(ddot0 * y3);
-                dz += 8*(ddot0 * z3);
+                val = 8 * dot0 * pow04;
+                dx = -64 * pow02 * t0 * x3 * dot0 + 8 * pow04 * g0.X;
+                dy = -64 * pow02 * t0 * y3 * dot0 + 8 * pow04 * g0.Y;
+                dz = -64 * pow02 * t0 * z3 * dot0 + 8 * pow04 * g0.Z;
+                v4 = new Vector4((float)val, (float)dx, (float)dy, (float)dz);
             }
 
-            return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
+            return v1 + v2 + v3 + v4;
+            //return new Vector4( (float)val, (float)dx, (float)dy, (float)dz );
         }
 
         public static Vector3[] grad3 =
         {
-            new(-1,1,-1),
-            new(-1,-1,0),
-            new(0,-1,-1),
-            new(-1,0,-1),
-            new(-1,1,-1),
-            new(-1,0,1),
-            new(1,-1,0),
-            new(0,1,-1),
+            new(-1,1,-1),  // 00
+            new(-1,-1,0),  // 01
+            new(0,-1,-1),  // 02
+            new(-1,0,-1),  // 03
+            new(-1,1,-1),  // 04
+            new(-1,0,1),   // 05
+            new(1,-1,0),   // 06
+            new(0,1,-1),   // 07
+                           
+            new(-1,-1,1),  // 08
+            new(1,-1,0),   // 09
+            new(0,1,-1),   // 10
+            new(-1,0,1),   // 11
+            new(-1,-1,1),  // 12
+            new(1,0,-1),   // 13
+            new(-1,1,0),   // 14
+            new(0,-1,1),   // 15
+                           
+            new(1,-1,-1),  // 16
+            new(-1,1,0),   // 17
+            new(0,-1,1),   // 18
+            new(1,0,-1),   // 19
+            new(1,-1,-1),  // 20
+            new(-1,0,-1),  // 21
+            new(-1,-1,0),  // 22
+            new(0,-1,-1),  // 23
+                           
+            new(1,1,1),    // 24
+            new(1,1,0),    // 25
+            new(0,1,1),    // 26
+            new(1,0,1),    // 27
+            new(1,1,1),    // 28
+            new(1,0,1),    // 29
+            new(1,1,0),    // 30
+            new(0,1,1),    // 31
+                           
+            new(1,-1,1),   // 32
+            new(1,1,0),    // 33
+            new(0,1,1),    // 34
+            new(1,0,1),    // 35
+            new(1,-1,1),   // 36
+            new(1,0,-1),   // 37
+            new(-1,1,0),   // 38
+            new(0,-1,1),   // 39
+                           
+            new(1,1,-1),   // 40
+            new(-1,1,0),   // 41
+            new(0,-1,1),   // 42
+            new(1,0,-1),   // 43
+            new(1,1,-1),   // 44
+            new(-1,0,1),   // 45
+            new(1,-1,0),   // 46
+            new(0,1,-1),   // 47
 
-            new(-1,-1,1),
-            new(1,-1,0),
-            new(0,1,-1),
-            new(-1,0,1),
-            new(-1,-1,1),
-            new(1,0,-1),
-            new(-1,1,0),
-            new(0,-1,1),
+            new(-1,1,1),   // 48
+            new(1,-1,0),   // 49
+            new(0,1,-1),   // 50
+            new(-1,0,1),   // 51
+            new(-1,1,1),   // 52
+            new(1,0,1),    // 53
+            new(1,1,0),    // 54
+            new(0,1,1),    // 55
 
-            new(1,-1,-1),
-            new(-1,1,0),
-            new(0,-1,1),
-            new(1,0,-1),
-            new(1,-1,-1),
-            new(-1,0,-1),
-            new(-1,-1,0),
-            new(0,-1,-1),
-
-            new(1,1,1),
-            new(1,1,0),
-            new(0,1,1),
-            new(1,0,1),
-            new(1,1,1),
-            new(1,0,1),
-            new(1,1,0),
-            new(0,1,1),
-
-            new(1,-1,1),
-            new(1,1,0),
-            new(0,1,1),
-            new(1,0,1),
-            new(1,-1,1),
-            new(1,0,-1),
-            new(-1,1,0),
-            new(0,-1,1),
-
-            new(1,1,-1),
-            new(-1,1,0),
-            new(0,-1,1),
-            new(1,0,-1),
-            new(1,1,-1),
-            new(-1,0,1),
-            new(1,-1,0),
-            new(0,1,-1),
-
-            new(-1,1,1),
-            new(1,-1,0),
-            new(0,1,-1),
-            new(-1,0,1),
-            new(-1,1,1),
-            new(1,0,1),
-            new(1,1,0),
-            new(0,1,1),
-
-            new(-1,-1,-1),
-            new(-1,-1,0),
-            new(0,-1,-1),
-            new(-1,0,-1),
-            new(-1,-1,-1),
-            new(-1,0,-1),
-            new(-1,-1,0),
-            new(0,-1,-1),
+            new(-1,-1,-1), // 56
+            new(-1,-1,0),  // 57
+            new(0,-1,-1),  // 58
+            new(-1,0,-1),  // 59
+            new(-1,-1,-1), // 60
+            new(-1,0,-1),  // 61
+            new(-1,-1,0),  // 62
+            new(0,-1,-1),  // 63
         };
 
         /*
