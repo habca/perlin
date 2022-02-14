@@ -6,76 +6,12 @@ using System.Numerics;
 
 using ProceduralNoises;
 
+using static ProceduralNoises.FractionalBrownianMotion;
+
 namespace ImageDrawer
 {
     public class ImageDrawer
     {
-        static void Main(string[] args)
-        {
-            Run();
-            //Test();
-        }
-
-        private static void Test()
-        {
-            NoiseGradients.Run(NoiseGradients.GradientsPerlin);
-            NoiseGradients.Run(NoiseGradients.GradientsPerlin3D);
-            NoiseGradients.Run(NoiseGradients.GradientsPerlin4D);
-            NoiseGradients.Run(NoiseGradients.GradientsSimplex);
-        }
-
-        private static void Run()
-        {
-            ImageDrawer drawer = new ImageDrawer(512, 512);
-            float[] data = new float[512*512];
-
-            string dir = "kuvat/";
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseBourke.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"value-bourke-fbm.png");
-
-            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseBourke.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"value-bourke-nms.png");
-
-            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseQuilez.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"value-quilez-fbm.png");
-
-            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseQuilez.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"value-quilez-nms.png");
-
-            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoise.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"perlin-custom-fbm.png");
-
-            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoise.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"perlin-custom-nms.png");
-
-            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoiseGustavson.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"perlin-gustavson-fbm.png");
-
-            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoiseGustavson.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"perlin-gustavson-nms.png");
-
-            data = drawer.generate(FractionalBrownianMotion.fbm, SimplexNoiseGustavson.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"simplex-qustavson-fbm.png");
-
-            data = drawer.generate(FractionalBrownianMotion.nms, SimplexNoiseGustavson.noise);
-            data = scale(data, 0, 255);
-            drawer.draw(data, dir+"simplex-qustavson-nms.png");
-        }
-
         private int width;
         private int height;
 
@@ -85,6 +21,27 @@ namespace ImageDrawer
             this.height = height;
         }
 
+        public static float[] generate(Warp q, Fract h, Sumf g, Noise f, int width, int height)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            float k = 0.001f;
+            float[] data = new float[width * height];
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    data[i * height + j] = (float)q(h, g, f, k * i, k * j, 0, out Vector3 _);
+                }
+            }
+
+            stopWatch.Stop();
+            Console.WriteLine(stopWatch.Elapsed);
+
+            return data;
+        }
+
         public float[] generate(
             Func<Func<double, double, double, Vector4>, double, double, double, int, Vector4> g,
             Func<double, double, double, Vector4> f
@@ -92,7 +49,7 @@ namespace ImageDrawer
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            
+
             float[] data = new float[width * height];
             for (int i = 0; i < width; i++)
             {
@@ -154,5 +111,73 @@ namespace ImageDrawer
             }
             newBitmap.Save(file, System.Drawing.Imaging.ImageFormat.Png);
         }
+
+        static void Main(string[] args)
+        {
+            ImageDrawer drawer = new ImageDrawer(512, 256);
+            float[] data = new float[512 * 256];
+
+            string dir = "kuvat/";
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            /*
+            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseBourke.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "value-bourke-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseBourke.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "value-bourke-nms.png");
+
+            data = drawer.generate(FractionalBrownianMotion.fbm, ValueNoiseQuilez.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "value-quilez-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, ValueNoiseQuilez.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "value-quilez-nms.png");
+
+            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoise.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "perlin-custom-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoise.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "perlin-custom-nms.png");
+
+            data = drawer.generate(FractionalBrownianMotion.fbm, ImprovedNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "perlin-gustavson-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, ImprovedNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "perlin-gustavson-nms.png");
+
+            data = drawer.generate(FractionalBrownianMotion.fbm, SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "simplex-qustavson-fbm.png");
+
+            data = drawer.generate(FractionalBrownianMotion.nms, SimplexNoiseGustavson.noise);
+            data = scale(data, 0, 255);
+            drawer.draw(data, dir + "simplex-qustavson-nms.png");
+            */
+
+            float[] arr = ImageDrawer.generate(RWarp, Dnoise, Billow, NoiseHardwareDerivatives.noise, 512, 256);
+            arr = scale(arr, 0, 255);
+            drawer.draw(arr, dir + "simplex-erosion.png");
+        }
+
+        /*
+        private static void Test()
+        {
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin);
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin3D);
+            NoiseGradients.Run(NoiseGradients.GradientsPerlin4D);
+            NoiseGradients.Run(NoiseGradients.GradientsSimplex);
+        }
+        */
     }
 }

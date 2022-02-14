@@ -183,70 +183,72 @@ namespace ProceduralNoises
         }
         */
 
-        public static Vector4 nms(
-            Func<double, double, double, Vector4> f,
-            double x,
-            double y,
-            double z,
-            int it
-        )
+        public delegate double Warp(Fract h, Sumf g, Noise f, double x, double y, double z, out Vector3 derva);
+        public delegate double Fract(Sumf g, Noise f, double x, double y, double z, out Vector3 derva);
+        public delegate double Noise(double x, double y, double z, out Vector3 derva);
+        public delegate double Sumf(double x);
+
+        public static double Dnoise(Sumf g, Noise f, double x, double y, double z, out Vector3 derva)
         {
-            double sum = 0f;
-            double freq = 0.005f;
-            double amp = 1f;
+            double sum = 0;
+            double freq = 1;
+            double m = 0.1;
+            derva = Vector3.Zero;
 
-            Vector3 dsum = new Vector3(0f, 0f, 0f);
-            for (int i = 0; i < it; i++)
+            int octaves = 0;
+            while (freq < 256)
             {
-                Vector4 n = f(freq*x, freq*y, freq*z);
-                dsum.X += n.Y;
-                dsum.Y += n.Z;
-                dsum.Z += n.W;
+                double n = f(freq * x, freq * y, freq * z, out Vector3 d) / freq;
+                derva += d;
+                // TODO: korvaa skaalaus Sumf kutsulla
+                double tmp = (n * Math.PI * 0.5 + 0.5) / (1f + m * Vector3.Dot(derva, derva));
 
-                sum += amp * n.X / (1f + Vector3.Dot(dsum, dsum));
-                amp *= 0.5;
-                freq *= 2.0;
+                // clamp values between [0, 1]
+                if (tmp < 0) tmp = 0;
+                if (tmp > 1) tmp = 1;
 
-                // cos(36.8) = 0.8. sin(36.8) = 0.6
-                //var tmpx = x * 1 + y * 0;
-                //var tmpy = x * 0 + y * -1;
-
-                //x = tmpx;
-                //y = tmpy;
+                sum += tmp;
+                freq *= 2;
+                octaves += 1;
             }
-            return new Vector4( (float)sum, (float)dsum.X, (float)dsum.Y, (float)dsum.Z );
+            if (octaves < 1) return 0;
+            return sum / octaves;
         }
 
-            /*
-            public static Vector4 warp(
-            Func<double, double, double, Vector4> f,
-            double x,
-            double y,
-            double z,
-            int it
-        )
+        public static double RWarp(Fract h, Sumf g, Noise f, double x, double y, double z, out Vector3 d)
         {
-            float k = 48f;
-            
-            float n1v = 0f, n1dx = 0f, n1dy = 0f;
-            float n2v = 0f, n2dx = 0f, n2dy = 0f;
-
-            for (int i = 0; i < it; i++)
-            {
-                Vector4 n1 = nms( f, x + n1v + n1dx, y + n2v + n1dy, z, 8 );
-                Vector4 n2 = nms( f, x + n1v + n2dx, y + n2v + n2dy, z, 8 );
-
-                n1dx = (float)n1.y;
-                n1dy = (float)n1.z;
-
-                n2dx = (float)n2.y;
-                n2dy = (float)n2.z;
-
-                n1v = k * (float)n1.x;
-                n2v = k * (float)n2.x;
-            }
-            return nms( f, x + n1v, y + n2v, z, it );
+            int depth = offset.Length / 3; // divisible by three
+            return RWarp(h, g, f, x, y, z, out d, depth);
         }
-        */
+
+        private static double RWarp(Fract h, Sumf g, Noise f, double x, double y, double z, out Vector3 d, int n)
+        {
+            if (n <= 0) return h(g, f, x, y, z, out d);
+            double m = 0.1;
+            int i = n * 3 - 1, j = i - 1, k = j - 1;
+            int depth = n - 1;
+            double xx = RWarp(h, g, f, x + offset[i].X, y + offset[i].Y, z + offset[i].Z, out d, depth);
+            double yy = RWarp(h, g, f, x + offset[j].X, y + offset[j].Y, z + offset[j].Z, out d, depth);
+            double zz = RWarp(h, g, f, x + offset[k].X, y + offset[k].Y, z + offset[k].Z, out d, depth);
+            return h(g, f, x + m * xx, y + m * yy, z + m * zz, out d);
+        }
+
+        private static Vector3[] offset =
+        {
+            new Vector3(5.2f, 1.3f, 3.1f),
+            new Vector3(1.7f, 9.2f, 8.3f),
+            new Vector3(8.3f, 2.8f, 5.1f),
+        };
+
+        public static double Billow(double n)
+        {
+            return Math.Abs(n);
+        }
+
+        public static double Normalize(double n)
+        {
+            // TODO: kohinan skaalaus välille [0, 1]
+            throw new NotImplementedException();
+        }
     }
 }
